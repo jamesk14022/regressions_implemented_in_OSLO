@@ -31,7 +31,6 @@ y_mean = mean(y)
 
 b_hat = sample_corr_co * (y_std / X_std)
 a_hat = y_mean - b_hat * X_mean
-
 y_hat_a = a_hat + b_hat * X
 
 print('Estimated slope is ', b_hat)
