@@ -7,7 +7,7 @@ X, y, coefs = make_regression(n_samples = 70,  n_features = 1, noise = 5, coef =
 # simple regression with one parameter
 
 # in this case, the intercept term and the parameter coeffecient estimation are the answers to a simple 
-# miniisation problem, a problem which reduces to simple formula, which can be seen here https://en.wikipedia.org/wiki/Simple_linear_regression
+# miniisation problem, a problem which reduces to simple closed form solution, which can be seen here https://en.wikipedia.org/wiki/Simple_linear_regression
 
 # we need, 
 
