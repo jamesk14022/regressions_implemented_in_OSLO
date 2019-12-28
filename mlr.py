@@ -9,9 +9,9 @@ from matplotlib import pyplot
 # multiple linear regression is slightly more tricky than simple linear regression but there is still a 
 # closed form solution for the estimation of parameters. 
 
-#currently only works for 3 features + intercept, any more parameters makes it hard to visualise
+#currently only works for 2 features + intercept + dependant, any more parameters makes it hard to visualise
 
-n = 100
+n = 3
 p = 2
 
 def f(x, z, b_hat):
@@ -42,6 +42,10 @@ def conf_intervals(b_hat, var_est, inverse_design, certainty):
 		intervals.append([j - quant, j + quant])
 	return intervals 
 
+def mean_squared_err(y, y_hat):
+	sq_res = (y_hat - y)**2
+	return mean(sq_res)
+
 X, y, coefs = make_regression(n_samples = n,  n_features = p, n_informative = 2, noise = 8, coef = True)
 
 # insert column of 1s before independant values to estimate intercept
@@ -61,6 +65,7 @@ print('actual coefs', coefs)
 #making prediction based on my estimates of the parameters 
 x_flat, z_flat = np.meshgrid(X[:, 1].flatten(), X[:, 2].flatten())
 y_hat = f(x_flat, z_flat, b_hat)
+y_hat_sparse = f(X[:, 1].flatten(), X[:, 2].flatten(), b_hat)
 
 print('y', y.shape)
 
@@ -70,13 +75,16 @@ r_sq = 1 - rss / tss
 var_est = res_var(rss, n)
 covar_matrix = covar_b_hat(inverse_design, var_est)
 se_estimators = sqrt(diag(covar_matrix))
-
+rmse = sqrt(mean_squared_err(y, y_hat_sparse))
 conf = conf_intervals(b_hat, var_est, inverse_design, 0.05)
 print('STDe', se_estimators)
 print('RSS', rss)
 print('TSS', tss)
 print('R Squared', r_sq)
 print('95% Confidence intervals', conf)
+#lets calculate rmse as a way to compare diff methods 
+print('rmse', rmse)
+
 
 fig = pyplot.figure()
 ax = pyplot.axes(projection='3d')
